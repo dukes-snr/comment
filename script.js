@@ -3,7 +3,7 @@ document.querySelectorAll('.reply-btn').forEach(button => {
         const commentElement = this.closest('.comment');
         const username = commentElement.querySelector('.comment-header strong').textContent;
         const snippet = commentElement.querySelector('p').textContent;
-        
+
         document.querySelector('.reply-popup').style.display = 'block';
         document.querySelector('.reply-username').textContent = username;
         document.querySelector('.reply-snippet').textContent = snippet;
@@ -22,7 +22,7 @@ document.querySelectorAll('.reply-btn').forEach(button => {
                     <button class="like-btn"><i class="fas fa-heart"></i> <span class="like-count">0</span></button>
                 </div>
             `;
-            commentElement.appendChild(newReply);
+            commentElement.querySelector('.sub-comments').appendChild(newReply);
             document.querySelector('.reply-popup').style.display = 'none';
             document.querySelector('.add-comment input[type="text"]').value = '';
         });
@@ -45,21 +45,32 @@ document.getElementById('image-upload').addEventListener('change', function(even
     reader.readAsDataURL(file);
 });
 
+document.getElementById('image-upload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const imagePopup = document.querySelector('.image-popup');
+        imagePopup.style.display = 'block';
+        document.querySelector('.image-preview-thumbnail').src = e.target.result;
+        document.querySelector('.image-name').textContent = file.name;
+    };
+    reader.readAsDataURL(file);
+});
+
 document.querySelector('.send-btn').addEventListener('click', function() {
     const commentText = document.querySelector('.add-comment input[type="text"]').value;
     const commentList = document.querySelector('.modal-body');
     const newComment = document.createElement('div');
     newComment.classList.add('comment');
-    
+
     let imageContent = '';
-    const imagePreview = document.querySelector('.image-preview');
-    if (imagePreview) {
-        imageContent = `<img src="${imagePreview.src}" alt="Selected Image">`;
-        imagePreview.remove(); // Remove the preview after adding the comment
+    const imagePopup = document.querySelector('.image-popup');
+    if (imagePopup.style.display === 'block') {
+        imageContent = `<img src="${document.querySelector('.image-preview-thumbnail').src}" alt="Selected Image">`;
+        imagePopup.style.display = 'none'; // Hide the popup after sending the comment
     }
-    
+
     newComment.innerHTML = `
-        
         <div class="comment-content">
             <img src="default-profile.jpg" alt="User Profile" class="profile-pic">
             <div>
@@ -76,8 +87,8 @@ document.querySelector('.send-btn').addEventListener('click', function() {
         </div>`;
     commentList.appendChild(newComment);
     document.querySelector('.add-comment input[type="text"]').value = '';
-    
-    // Adding like functionality to new comment
+
+    // Re-attach the like button functionality for the new comment
     newComment.querySelector('.like-btn').addEventListener('click', function() {
         this.classList.toggle('liked');
         let likeCount = parseInt(this.querySelector('.like-count').textContent);
@@ -88,3 +99,18 @@ document.querySelector('.send-btn').addEventListener('click', function() {
         }
     });
 });
+
+document.querySelectorAll('.like-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        this.classList.toggle('liked');
+        let likeCount = parseInt(this.querySelector('.like-count').textContent);
+        if (this.classList.contains('liked')) {
+            this.querySelector('.like-count').textContent = likeCount + 1;
+            this.querySelector('i').style.color = 'red';
+        } else {
+            this.querySelector('.like-count').textContent = likeCount - 1;
+            this.querySelector('i').style.color = '';
+        }
+    });
+});
+
