@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Comment Modal</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="comment-modal">
+        <div class="modal-header">
+            <h2>Comments <span class="comment-count">34</span></h2>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="comment">
+                
+                <div class="comment-content">
+                    <img src="profile1.jpg" alt="User Profile" class="profile-pic">
+                    <div>
+                        <div class="comment-header">
+                            <strong>Donald Rice</strong> &bull; 5 min ago
+                        </div>
+                        <p>Christian spirit passion virtues suicide morality.</p>
+                        <div class="comment-actions">
+                            <button class="reply-btn">Reply</button>
+                            <button class="like-btn"><i class="fas fa-heart"></i> <span class="like-count">24</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Additional comments go here -->
+        </div>
+        <div class="modal-footer">
+            <div class="add-comment">
+                <input type="text" placeholder="Type a comment...">
+                <div class="media-options">
+                    <label for="image-upload"><i class="fas fa-image"></i></label>
+                    <input type="file" id="image-upload" accept="image/*">
+                    
+                    <label for="audio-upload"><i class="fas fa-microphone"></i></label>
+                    <input type="file" id="audio-upload" accept="audio/*">
+                </div>
+                <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <!-- Popup for reply -->
+            <div class="reply-popup" style="display: none;">
+                <div class="replying-to">Replying to <span class="reply-username"></span></div>
+                <div class="reply-snippet"></div>
+                <button class="cancel-reply-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
